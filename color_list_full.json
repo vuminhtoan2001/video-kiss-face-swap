@@ -1,0 +1,170 @@
+{
+  "success": true,
+  "status_code": 200,
+  "request_id": "615926ac-d9d1-49b6-a620-1cc4d65f9831",
+  "messages": [
+    "ok"
+  ],
+  "data": {
+    "items": [
+      {
+        "id": 373,
+        "key": "surprise_me",
+        "prompt": null,
+        "code": null,
+        "image_url": "https://d3y8wgliw9mu5.cloudfront.net/images/2026/03/pallete-1-1774923728.png",
+        "name": "Surprise Me",
+        "description": null
+      },
+      {
+        "id": 374,
+        "key": "muted_form",
+        "prompt": null,
+        "code": null,
+        "image_url": "https://d3y8wgliw9mu5.cloudfront.net/images/2026/03/muted-form-1774579115.png",
+        "name": "Muted Form",
+        "description": null
+      },
+      {
+        "id": 375,
+        "key": "millennial_gray",
+        "prompt": null,
+        "code": null,
+        "image_url": "https://d3y8wgliw9mu5.cloudfront.net/images/2026/03/millennial-gray-1774579112.png",
+        "name": "Millennial Gray",
+        "description": null
+      },
+      {
+        "id": 376,
+        "key": "cozy_beige",
+        "prompt": null,
+        "code": null,
+        "image_url": "https://d3y8wgliw9mu5.cloudfront.net/images/2026/03/cozy-beige-1774579110.png",
+        "name": "Cozy Beige",
+        "description": null
+      },
+      {
+        "id": 377,
+        "key": "earth_calm",
+        "prompt": null,
+        "code": null,
+        "image_url": "https://d3y8wgliw9mu5.cloudfront.net/images/2026/03/earth-calm-1774579111.png",
+        "name": "Earth Calm",
+        "description": null
+      },
+      {
+        "id": 378,
+        "key": "misty_garden",
+        "prompt": null,
+        "code": null,
+        "image_url": "https://d3y8wgliw9mu5.cloudfront.net/images/2026/03/misty-garden-1774579113.png",
+        "name": "Misty Garden",
+        "description": null
+      },
+      {
+        "id": 379,
+        "key": "antique_sage",
+        "prompt": null,
+        "code": null,
+        "image_url": "https://d3y8wgliw9mu5.cloudfront.net/images/2026/03/antique-sage-1774579107.png",
+        "name": "Antique Sage",
+        "description": null
+      },
+      {
+        "id": 380,
+        "key": "ocean_mist",
+        "prompt": null,
+        "code": null,
+        "image_url": "https://d3y8wgliw9mu5.cloudfront.net/images/2026/03/ocean-mist-1774579116.png",
+        "name": "Ocean Mist",
+        "description": null
+      },
+      {
+        "id": 381,
+        "key": "twilight_blues",
+        "prompt": null,
+        "code": null,
+        "image_url": "https://d3y8wgliw9mu5.cloudfront.net/images/2026/03/twilight-blues-1774579123.png",
+        "name": "Twilight Blues",
+        "description": null
+      },
+      {
+        "id": 382,
+        "key": "velvet_dusk",
+        "prompt": null,
+        "code": null,
+        "image_url": "https://d3y8wgliw9mu5.cloudfront.net/images/2026/03/velvet-dusk-1774579124.png",
+        "name": "Velvet Dusk",
+        "description": null
+      },
+      {
+        "id": 383,
+        "key": "sunbaked_clay",
+        "prompt": null,
+        "code": null,
+        "image_url": "https://d3y8wgliw9mu5.cloudfront.net/images/2026/03/sunbaked-clay-1774579120.png",
+        "name": "Sunbaked Clay",
+        "description": null
+      },
+      {
+        "id": 384,
+        "key": "terracotta_mirage",
+        "prompt": null,
+        "code": null,
+        "image_url": "https://d3y8wgliw9mu5.cloudfront.net/images/2026/03/terracotta-mirage-1774579122.png",
+        "name": "Terracotta Mirage",
+        "description": null
+      },
+      {
+        "id": 385,
+        "key": "peach_orchard",
+        "prompt": null,
+        "code": null,
+        "image_url": "https://d3y8wgliw9mu5.cloudfront.net/images/2026/03/peach-orchard-1774579118.png",
+        "name": "Peach Orchard",
+        "description": null
+      },
+      {
+        "id": 386,
+        "key": "blush_mood",
+        "prompt": null,
+        "code": null,
+        "image_url": "https://d3y8wgliw9mu5.cloudfront.net/images/2026/03/blush-mood-1774579109.png",
+        "name": "Blush Mood",
+        "description": null
+      },
+      {
+        "id": 387,
+        "key": "pastel_breeze",
+        "prompt": null,
+        "code": null,
+        "image_url": "https://d3y8wgliw9mu5.cloudfront.net/images/2026/03/pastel-breeze-1774579117.png",
+        "name": "Pastel Breeze",
+        "description": null
+      },
+      {
+        "id": 388,
+        "key": "violet_dream",
+        "prompt": null,
+        "code": null,
+        "image_url": "https://d3y8wgliw9mu5.cloudfront.net/images/2026/03/violet-dream-1774579126.png",
+        "name": "Violet Dream",
+        "description": null
+      },
+      {
+        "id": 389,
+        "key": "retro_pop",
+        "prompt": null,
+        "code": null,
+        "image_url": "https://d3y8wgliw9mu5.cloudfront.net/images/2026/03/retro-pop-1774579119.png",
+        "name": "Retro Pop",
+        "description": null
+      }
+    ],
+    "total_items": 17,
+    "item_count": 17,
+    "items_per_page": 100,
+    "total_page": 1,
+    "current_page": 1
+  }
+}
