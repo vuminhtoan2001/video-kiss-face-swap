@@ -1,0 +1,29 @@
+{
+	"success": true,
+	"status_code": 200,
+	"request_id": "b7091057-0032-48c9-9129-20cb2cfdc3ec",
+	"messages": [
+		"ok"
+	],
+	"data": {
+		"items": [
+			{"id": 373, "key": "surprise_me", "prompt": null, "code": null, "image_url": "https://d3y8wgliw9mu5.cloudfront.net/images/2026/03/pallete-1-1774923728.png", "name": "Surprise Me", "description": null},
+			{"id": 390, "key": "urban_veil", "prompt": null, "code": null, "image_url": "https://d3y8wgliw9mu5.cloudfront.net/images/2026/03/urban-veil-1774579667.png", "name": "Urban Veil", "description": null},
+			{"id": 391, "key": "misty_garden", "prompt": null, "code": null, "image_url": "https://d3y8wgliw9mu5.cloudfront.net/images/2026/03/misty-garden-1774579658.png", "name": "Misty Garden", "description": null},
+			{"id": 392, "key": "earthy_harmony", "prompt": null, "code": null, "image_url": "https://d3y8wgliw9mu5.cloudfront.net/images/2026/03/earthy-harmony-1774579656.png", "name": "Earthy Harmony", "description": null},
+			{"id": 393, "key": "sunbaked_clay", "prompt": null, "code": null, "image_url": "https://d3y8wgliw9mu5.cloudfront.net/images/2026/03/sunbaked-clay-1774579662.png", "name": "Sunbaked Clay", "description": null},
+			{"id": 394, "key": "earthy_hues", "prompt": null, "code": null, "image_url": "https://d3y8wgliw9mu5.cloudfront.net/images/2026/03/earthy-hues-1774579657.png", "name": "Earthy Hues", "description": null},
+			{"id": 395, "key": "terracotta_mirage", "prompt": null, "code": null, "image_url": "https://d3y8wgliw9mu5.cloudfront.net/images/2026/03/terracotta-mirage-1774579665.png", "name": "Terracotta Mirage", "description": null},
+			{"id": 396, "key": "sand_serenity", "prompt": null, "code": null, "image_url": "https://d3y8wgliw9mu5.cloudfront.net/images/2026/03/sand-serenity-1774579661.png", "name": "Sand Serenity", "description": null},
+			{"id": 397, "key": "terra_coast", "prompt": null, "code": null, "image_url": "https://d3y8wgliw9mu5.cloudfront.net/images/2026/03/terra-coast-1774579663.png", "name": "Terra Coast", "description": null},
+			{"id": 398, "key": "antique_sage", "prompt": null, "code": null, "image_url": "https://d3y8wgliw9mu5.cloudfront.net/images/2026/03/antique-sage-1774579655.png", "name": "Antique Sage", "description": null},
+			{"id": 399, "key": "ocean_mist", "prompt": null, "code": null, "image_url": "https://d3y8wgliw9mu5.cloudfront.net/images/2026/03/ocean-mist-1774579659.png", "name": "Ocean Mist", "description": null},
+			{"id": 400, "key": "twilight_blues", "prompt": null, "code": null, "image_url": "https://d3y8wgliw9mu5.cloudfront.net/images/2026/03/twilight-blues-1774579666.png", "name": "Twilight Blues", "description": null}
+		],
+		"total_items": 12,
+		"item_count": 12,
+		"items_per_page": 100,
+		"total_page": 1,
+		"current_page": 1
+	}
+}
