@@ -1,0 +1,227 @@
+{
+ "success": true,
+ "status_code": 200,
+ "messages": [
+  "ok"
+ ],
+ "data": {
+  "items": [
+   {
+    "id": 1,
+    "key": "house_exterior",
+    "name": "Nhà",
+    "name_en": "house exterior",
+    "prompt": "front door, windows, pitched roof, driveway, front lawn",
+    "prompt_must_have": "front door, windows",
+    "prompt_extra": null,
+    "negative": null,
+    "negative_wrong_items": null,
+    "negative_wrong_rooms": null
+   },
+   {
+    "id": 2,
+    "key": "swimming_pool_area",
+    "name": "Hồ bơi",
+    "name_en": "swimming pool area",
+    "prompt": "swimming pool, sun loungers, parasol, pool deck, surrounding planting",
+    "prompt_must_have": "swimming pool, sun loungers",
+    "prompt_extra": "clear still water, wet deck reflection",
+    "negative": "theme park, public bathhouse",
+    "negative_wrong_items": null,
+    "negative_wrong_rooms": null
+   },
+   {
+    "id": 3,
+    "key": "tiny_house_exterior",
+    "name": "Nhà siêu nhỏ",
+    "name_en": "tiny house exterior",
+    "prompt": "compact timber cabin, large window, small deck, pitched roof, entry steps",
+    "prompt_must_have": "compact timber cabin, large window",
+    "prompt_extra": null,
+    "negative": "mansion, sprawling estate",
+    "negative_wrong_items": null,
+    "negative_wrong_rooms": null
+   },
+   {
+    "id": 4,
+    "key": "courtyard_exterior",
+    "name": "Sân trong",
+    "name_en": "courtyard exterior",
+    "prompt": "enclosed courtyard walls, stone paving, planting beds, feature tree, outdoor seating",
+    "prompt_must_have": "enclosed courtyard walls, stone paving",
+    "prompt_extra": null,
+    "negative": null,
+    "negative_wrong_items": null,
+    "negative_wrong_rooms": null
+   },
+   {
+    "id": 5,
+    "key": "resort_exterior",
+    "name": "Khu nghỉ dưỡng",
+    "name_en": "resort exterior",
+    "prompt": "resort buildings, pool, sun loungers, palm planting, walkways",
+    "prompt_must_have": "resort buildings, pool",
+    "prompt_extra": null,
+    "negative": null,
+    "negative_wrong_items": null,
+    "negative_wrong_rooms": null
+   },
+   {
+    "id": 6,
+    "key": "dome_house_exterior",
+    "name": "Gian nhà vòm",
+    "name_en": "dome house exterior",
+    "prompt": "geodesic dome structure, curved glazing, entrance door, surrounding planting",
+    "prompt_must_have": "geodesic dome structure, curved glazing",
+    "prompt_extra": null,
+    "negative": null,
+    "negative_wrong_items": null,
+    "negative_wrong_rooms": null
+   },
+   {
+    "id": 7,
+    "key": "coffee_shop_exterior",
+    "name": "Quán cà phê (ngoài)",
+    "name_en": "coffee shop exterior",
+    "prompt": "shopfront glazing, cafe signage, outdoor tables and chairs, awning, planters",
+    "prompt_must_have": "shopfront glazing, cafe signage",
+    "prompt_extra": null,
+    "negative": null,
+    "negative_wrong_items": null,
+    "negative_wrong_rooms": null
+   },
+   {
+    "id": 8,
+    "key": "farm_exterior",
+    "name": "Nông trại",
+    "name_en": "farm exterior",
+    "prompt": "farm house, barn, fenced field, gravel yard, mature trees",
+    "prompt_must_have": "farm house, barn",
+    "prompt_extra": null,
+    "negative": null,
+    "negative_wrong_items": null,
+    "negative_wrong_rooms": null
+   },
+   {
+    "id": 9,
+    "key": "villa_exterior",
+    "name": "Biệt thự",
+    "name_en": "villa exterior",
+    "prompt": "pitched roof, tall windows, entrance porch, driveway, front lawn",
+    "prompt_must_have": "pitched roof, tall windows",
+    "prompt_extra": null,
+    "negative": null,
+    "negative_wrong_items": null,
+    "negative_wrong_rooms": null
+   },
+   {
+    "id": 10,
+    "key": "apartment_building_exterior",
+    "name": "Căn hộ",
+    "name_en": "apartment building exterior",
+    "prompt": "balconies, repeated window bays, entrance canopy, facade cladding",
+    "prompt_must_have": "balconies, repeated window bays",
+    "prompt_extra": null,
+    "negative": null,
+    "negative_wrong_items": null,
+    "negative_wrong_rooms": null
+   },
+   {
+    "id": 11,
+    "key": "townhouse_facade",
+    "name": "Nhà phố",
+    "name_en": "townhouse facade",
+    "prompt": "front door, windows, balcony railing, facade cladding, street level entrance",
+    "prompt_must_have": "front door, windows",
+    "prompt_extra": null,
+    "negative": null,
+    "negative_wrong_items": null,
+    "negative_wrong_rooms": null
+   },
+   {
+    "id": 12,
+    "key": "office_building_facade",
+    "name": "Văn phòng (ngoài)",
+    "name_en": "office building facade",
+    "prompt": "glass curtain wall, entrance lobby, signage band, paved forecourt",
+    "prompt_must_have": "glass curtain wall, entrance lobby",
+    "prompt_extra": "clean glazing lines, crisp shadow, wide angle street view",
+    "negative": null,
+    "negative_wrong_items": null,
+    "negative_wrong_rooms": null
+   },
+   {
+    "id": 13,
+    "key": "retail_shopfront",
+    "name": "Cửa hàng",
+    "name_en": "retail shopfront",
+    "prompt": "display windows, shop signage, entrance door, awning, pavement",
+    "prompt_must_have": "display windows, shop signage",
+    "prompt_extra": "lit display window, street level view",
+    "negative": null,
+    "negative_wrong_items": null,
+    "negative_wrong_rooms": null
+   },
+   {
+    "id": 14,
+    "key": "log_cabin_exterior",
+    "name": "Cabin",
+    "name_en": "log cabin exterior",
+    "prompt": "timber log walls, pitched roof, porch, chimney, forest surroundings",
+    "prompt_must_have": "timber log walls, pitched roof",
+    "prompt_extra": null,
+    "negative": null,
+    "negative_wrong_items": null,
+    "negative_wrong_rooms": null
+   },
+   {
+    "id": 15,
+    "key": "hotel_exterior",
+    "name": "Khách sạn",
+    "name_en": "hotel exterior",
+    "prompt": "hotel entrance canopy, repeated window bays, signage, landscaped forecourt",
+    "prompt_must_have": "hotel entrance canopy, repeated window bays",
+    "prompt_extra": null,
+    "negative": null,
+    "negative_wrong_items": null,
+    "negative_wrong_rooms": null
+   },
+   {
+    "id": 16,
+    "key": "market_stall_exterior",
+    "name": "Gian hàng",
+    "name_en": "market stall exterior",
+    "prompt": "open front stall, canopy roof, counter display, signage, string lights",
+    "prompt_must_have": "open front stall, canopy roof",
+    "prompt_extra": null,
+    "negative": "supermarket aisle, warehouse",
+    "negative_wrong_items": null,
+    "negative_wrong_rooms": null
+   },
+   {
+    "id": 17,
+    "key": "thatched_cottage_exterior",
+    "name": "Nhà tranh",
+    "name_en": "thatched cottage exterior",
+    "prompt": "thatched roof, timber windows, garden path, climbing plants, short fence",
+    "prompt_must_have": "thatched roof, timber windows",
+    "prompt_extra": null,
+    "negative": "skyscraper, shopping mall",
+    "negative_wrong_items": null,
+    "negative_wrong_rooms": null
+   },
+   {
+    "id": 18,
+    "key": "tower_building_exterior",
+    "name": "Tháp",
+    "name_en": "tower building exterior",
+    "prompt": "tall slender tower, vertical fins, glazed shaft, base entrance",
+    "prompt_must_have": "tall slender tower, vertical fins",
+    "prompt_extra": "wide angle upward view, open sky backdrop",
+    "negative": null,
+    "negative_wrong_items": null,
+    "negative_wrong_rooms": null
+   }
+  ]
+ }
+}

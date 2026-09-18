@@ -1,0 +1,131 @@
+{
+ "success": true,
+ "status_code": 200,
+ "messages": [
+  "ok"
+ ],
+ "data": {
+  "items": [
+   {
+    "id": 1,
+    "key": "living_room",
+    "name": "Phòng khách",
+    "name_en": "living room",
+    "prompt": "large sofa, coffee table, armchair, area rug, floor lamp, framed wall art, curtains",
+    "prompt_must_have": "large sofa, coffee table",
+    "prompt_extra": null,
+    "negative": null,
+    "negative_wrong_items": "bed, bathtub, toilet, kitchen cabinets, office desk, bar counter",
+    "negative_wrong_rooms": "bedroom, dining room, bathroom, kitchen, gaming room, restaurant, home office, corporate office"
+   },
+   {
+    "id": 2,
+    "key": "bedroom",
+    "name": "Phòng ngủ",
+    "name_en": "bedroom",
+    "prompt": "double bed with headboard, bedding, nightstands, bedside lamps, wardrobe, area rug, curtains",
+    "prompt_must_have": "double bed with headboard, bedding",
+    "prompt_extra": null,
+    "negative": null,
+    "negative_wrong_items": "sofa, couch, dining table, bathtub, toilet, kitchen cabinets, office desk, bar counter",
+    "negative_wrong_rooms": "living room, dining room, bathroom, kitchen, gaming room, restaurant, home office, coffee shop, corporate office"
+   },
+   {
+    "id": 3,
+    "key": "dining_room",
+    "name": "Phòng ăn",
+    "name_en": "dining room",
+    "prompt": "dining table, dining chairs, pendant light above table, sideboard, centerpiece",
+    "prompt_must_have": "dining table, dining chairs",
+    "prompt_extra": null,
+    "negative": null,
+    "negative_wrong_items": "sofa, couch, bed, bathtub, toilet, kitchen cabinets, office desk, bar counter",
+    "negative_wrong_rooms": "living room, bedroom, bathroom, kitchen, gaming room, restaurant, home office, coffee shop, corporate office"
+   },
+   {
+    "id": 4,
+    "key": "bathroom",
+    "name": "Phòng tắm",
+    "name_en": "bathroom",
+    "prompt": "bathtub, toilet, vanity with mirror, walk-in shower, wall tiles, towels",
+    "prompt_must_have": "bathtub, toilet",
+    "prompt_extra": "large format wall and floor tiles, glass shower screen, wall mounted fittings",
+    "negative": "kitchen sink, laundry",
+    "negative_wrong_items": "sofa, couch, bed, dining table, kitchen cabinets, office desk, bar counter",
+    "negative_wrong_rooms": "living room, bedroom, dining room, kitchen, gaming room, restaurant, home office, coffee shop, corporate office"
+   },
+   {
+    "id": 5,
+    "key": "kitchen",
+    "name": "Bếp",
+    "name_en": "kitchen",
+    "prompt": "kitchen cabinets, stone countertop, kitchen island, bar stools, tile backsplash, range hood",
+    "prompt_must_have": "kitchen cabinets, stone countertop",
+    "prompt_extra": "handleless cabinet fronts, integrated appliances, under cabinet lighting",
+    "negative": "pub, nightclub",
+    "negative_wrong_items": "sofa, couch, bed, dining table, bathtub, toilet, office desk",
+    "negative_wrong_rooms": "living room, bedroom, dining room, bathroom, gaming room, restaurant, home office, coffee shop, corporate office"
+   },
+   {
+    "id": 6,
+    "key": "gaming_room",
+    "name": "Phòng chơi game",
+    "name_en": "gaming room",
+    "prompt": "gaming desk against the wall, desktop computer with two monitors on the desk, keyboard and mouse, racing gaming chair",
+    "prompt_must_have": "a desktop computer with two monitors and a racing gaming chair",
+    "prompt_extra": "the computer desk setup is the main subject",
+    "negative": "home theater, television, tv set, speakers, media console, soundbar",
+    "negative_wrong_items": "sofa, couch, bed, dining table, bathtub, toilet, kitchen cabinets, bar counter",
+    "negative_wrong_rooms": "living room, bedroom, dining room, bathroom, kitchen, restaurant, home office, coffee shop, corporate office"
+   },
+   {
+    "id": 7,
+    "key": "restaurant_interior",
+    "name": "Nhà hàng",
+    "name_en": "restaurant interior",
+    "prompt": "multiple dining tables and chairs, bar counter, decorative pendant lights, banquette seating",
+    "prompt_must_have": "multiple dining tables and chairs, bar counter",
+    "prompt_extra": null,
+    "negative": null,
+    "negative_wrong_items": "sofa, couch, bed, bathtub, toilet, kitchen cabinets, office desk",
+    "negative_wrong_rooms": "living room, bedroom, bathroom, kitchen, gaming room, home office, coffee shop, corporate office"
+   },
+   {
+    "id": 8,
+    "key": "home_office",
+    "name": "Văn phòng tại gia",
+    "name_en": "home office",
+    "prompt": "desk with computer, ergonomic chair, bookshelf, task lamp, potted plants",
+    "prompt_must_have": "desk with a computer, bookshelf",
+    "prompt_extra": null,
+    "negative": "cubicle, call center",
+    "negative_wrong_items": "sofa, couch, bed, dining table, bathtub, toilet, kitchen cabinets, bar counter",
+    "negative_wrong_rooms": "living room, bedroom, dining room, bathroom, kitchen, gaming room, restaurant, coffee shop"
+   },
+   {
+    "id": 9,
+    "key": "coffee_shop_interior",
+    "name": "Quán cà phê",
+    "name_en": "coffee shop interior",
+    "prompt": "cafe counter, espresso machine, small round tables, bentwood chairs, menu board, pendant lights",
+    "prompt_must_have": "cafe counter, espresso machine",
+    "prompt_extra": null,
+    "negative": null,
+    "negative_wrong_items": "sofa, couch, bed, dining table, bathtub, toilet, kitchen cabinets, office desk",
+    "negative_wrong_rooms": "living room, bedroom, dining room, bathroom, kitchen, gaming room, restaurant, home office, corporate office"
+   },
+   {
+    "id": 10,
+    "key": "corporate_office",
+    "name": "Văn phòng",
+    "name_en": "corporate office",
+    "prompt": "workstations, office desks, task chairs, meeting table, acoustic panels, carpet tiles",
+    "prompt_must_have": "rows of workstations, meeting table",
+    "prompt_extra": "suspended ceiling lighting, glass partition, cable managed desks",
+    "negative": null,
+    "negative_wrong_items": "sofa, couch, bed, bathtub, toilet, kitchen cabinets, bar counter",
+    "negative_wrong_rooms": "living room, bedroom, dining room, bathroom, kitchen, gaming room, restaurant, coffee shop"
+   }
+  ]
+ }
+}

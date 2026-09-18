@@ -1,0 +1,72 @@
+{
+ "success": true,
+ "status_code": 200,
+ "messages": [
+  "ok"
+ ],
+ "data": {
+  "items": [
+   {
+    "id": 1,
+    "key": "interior",
+    "name": "Interior",
+    "suffix": "interior",
+    "default_subject_en": "interior room",
+    "default_subject_prompt": "furniture, lighting, floor finish",
+    "prompt_quality": "photorealistic, professional interior photography, soft natural lighting, detailed material and surface texture, sharp focus, high resolution",
+    "prompt_complete": "fully furnished, professionally staged, all essential furniture present",
+    "negative_incomplete": "empty room, unfurnished, bare floor, no furniture, vacant",
+    "negative_other_space": "outdoors, street view",
+    "negative_extra": "extra doors, extra windows",
+    "negate_siblings": true,
+    "room_list_file": "interior_room_list_full.json",
+    "style_list_file": "Interior_style_list_full.json",
+    "color_list_file": "Interiorcolor_list_full.json"
+   },
+   {
+    "id": 2,
+    "key": "exterior",
+    "name": "Exterior",
+    "suffix": "",
+    "default_subject_en": "building exterior",
+    "default_subject_prompt": "facade, windows, entrance, surrounding ground",
+    "prompt_quality": "photorealistic, professional architectural exterior photography, natural daylight, detailed material texture, sharp focus, high resolution",
+    "prompt_complete": "finished building, landscaped surroundings, professionally staged",
+    "negative_incomplete": "construction site, scaffolding, bare plot, rubble",
+    "negative_other_space": "indoors, interior room",
+    "negative_extra": null,
+    "negate_siblings": false,
+    "room_list_file": "exterior_room_list_full.json",
+    "style_list_file": "exterior_style_list_full.json",
+    "color_list_file": "enterior_color_list_full.json"
+   },
+   {
+    "id": 3,
+    "key": "garden",
+    "name": "Garden",
+    "suffix": "",
+    "default_subject_en": "garden",
+    "default_subject_prompt": "lawn, planting beds, garden path, mature trees and shrubs, outdoor seating",
+    "prompt_quality": "photorealistic, professional landscape garden photography, natural daylight, detailed foliage texture, sharp focus, high resolution",
+    "prompt_complete": "fully planted, mature healthy planting, professionally landscaped",
+    "negative_incomplete": "bare soil, dead vegetation, scorched ground, empty lot, construction site",
+    "negative_other_space": "indoors, interior room, carpet",
+    "negative_extra": null,
+    "negate_siblings": false,
+    "room_list_file": "garden_room_list_full.json",
+    "style_list_file": "garden_style_list_full.json",
+    "color_list_file": "garden_color_list_full.json"
+   }
+  ],
+  "shared": {
+   "negative_base": "blurry, low quality, distorted, deformed furniture, watermark, text, unrealistic proportions, warped walls, people, duplicate objects, floating furniture, oversaturated",
+   "non_photo_styles": [
+    "Cartoon"
+   ],
+   "non_photo_quality": "high quality illustration, clean vector render, detailed",
+   "color_by_style_label": "Theo style",
+   "color_random_label": "Surprise Me",
+   "token_limit_per_encoder": 77
+  }
+ }
+}

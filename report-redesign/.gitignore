@@ -1,0 +1,5 @@
+# Bí mật ký request — KHÔNG commit
+.env
+
+# Ảnh render + báo cáo sinh ra lúc chạy, có thể rất nặng
+ket-qua/

@@ -1,0 +1,333 @@
+##### cell bc546c1d #####
+--- Interior_Design_Render.ipynb
++++ Interior_Design_Render_server.ipynb
+@@ -1,5 +1,6 @@
+ import base64, io as _io, json, os, re, time
+ from typing import Optional
++from urllib.parse import urlsplit
+ 
+ import requests
+ from pydantic import BaseModel
+@@ -18,13 +19,7 @@
+ 
+ def _moc(ten):
+     """Moc bo nho tai tung buoc. T4 chet o RAM 12,7 GB nhieu khong kem gi VRAM,
+-    nen phai thay duoc RAM tang o buoc nao.
+-
+-    Theo CA memory_allocated() (tensor dang song) LAN memory_reserved() (tong pool
+-    ma CUDA allocator dang giu, ke ca phan da phan manh chua tra duoc). empty_cache()
+-    co the lam memory_allocated() nhin sach trong khi memory_reserved() van cao -- chi
+-    nhin memory_allocated() (nhu ban v2) se KHONG thay duoc phan manh dang tich luy.
+-    """
++    nen phai thay duoc RAM tang o buoc nao."""
+     try:
+         import psutil
+         ram = round(psutil.Process(os.getpid()).memory_info().rss / 1024 ** 3, 2)
+@@ -33,11 +28,9 @@
+     try:
+         import torch
+         vram = round(torch.cuda.memory_allocated() / 1024 ** 3, 2) if torch.cuda.is_available() else None
+-        vram_reserved = round(torch.cuda.memory_reserved() / 1024 ** 3, 2) if torch.cuda.is_available() else None
+     except Exception:
+-        vram = vram_reserved = None
++        vram = None
+     LAST_STATS.setdefault('_bo_nho', {})[ten] = {'ram_gb': ram, 'vram_gb': vram,
+-                                                 'vram_reserved_gb': vram_reserved,
+                                                  't': round(time.time(), 1)}
+ 
+ 
+@@ -76,6 +69,22 @@
+     callback_token: Optional[str] = None
+ 
+ 
++def kiem_nguon(job: Job):
++    """Kiem dau vao bang thu CO SAN trong request — khong cham mang.
++
++    Goi ngay trong handler de loi input ra 400. api coi 4xx la hong HAN (khong doi
++    may khac thu lai), dung y: URL sai thi doi may van sai. Neu de tan thread nen
++    moi phat hien thi job van 'processing' mot luc, giam ca mot profile GPU cho mot
++    viec chac chan hong.
++    """
++    if not job.anh_url and not job.anh_base64:
++        raise ValueError("thieu anh dau vao: can 'anh_url' hoac 'anh_base64'")
++    if job.anh_url:
++        sp = urlsplit(job.anh_url)
++        if sp.scheme not in ('http', 'https') or not sp.netloc:
++            raise ValueError(f"'anh_url' phai la http(s): {str(job.anh_url)[:120]}")
++
++
+ def tai_anh(job: Job, uid: str) -> str:
+     """Lay anh goc ve dia. Tra duong dan file."""
+     if job.anh_base64:
+
+##### cell 672001bd #####
+--- Interior_Design_Render.ipynb
++++ Interior_Design_Render_server.ipynb
+@@ -1,11 +1,4 @@
+ import gc, os, time
+-
+-# Giam phan manh cua CUDA allocator khi enable_model_cpu_offload day model qua lai
+-# RAM/VRAM MOI JOB (xem CHANGELOG v2: 5 job Garden lien tiep 73s -> 186s -> 314s ->
+-# 351s -> 320s roi phien bi ngat, du da goi empty_cache()/ipc_collect() sau moi job).
+-# PHAI dat truoc dong `import torch` dau tien trong ca notebook, neu khong bien nay
+-# khong co tac dung (allocator doc gia tri nay luc khoi tao).
+-os.environ.setdefault('PYTORCH_CUDA_ALLOC_CONF', 'expandable_segments:True')
+ 
+ import cv2
+ import numpy as np
+@@ -17,12 +10,6 @@
+ DEVICE = 'cuda' if torch.cuda.is_available() else 'cpu'
+ DTYPE = torch.float16 if DEVICE == 'cuda' else torch.float32
+ PIPE = {'pipe': None, 'mlsd': None}
+-
+-# empty_cache()/ipc_collect() sau moi job KHONG du de tra het phan manh (do that
+-# 17/09/2026, xem CHANGELOG). Nap lai TOAN BO pipeline dinh ky de reset sach trang
+-# thai allocator, thay vi cho phan manh tich luy den khi Colab tu ngat phien.
+-RELOAD_EVERY = 8          #@param {type:"integer"}  0 = tat, khong nap lai dinh ky
+-JOB_COUNT = {'n': 0}
+ 
+ CONTROLNET_ID = ('diffusers/controlnet-canny-sdxl-1.0-small' if CONTROLNET_SMALL
+                  else 'diffusers/controlnet-canny-sdxl-1.0')
+@@ -75,22 +62,6 @@
+     torch.cuda.empty_cache()
+     _moc('model_san_sang')
+     print(f'   [{BACKEND}] model san sang tren {torch.cuda.get_device_name(0)}')
+-
+-
+-def _nap_lai_dinh_ky():
+-    """Xoa het pipeline hien tai roi nap lai tu dau -- reset sach trang thai CUDA
+-    allocator. empty_cache()/ipc_collect() moi job chi tra duoc khoi RANH, phan da
+-    phan manh (khong con khoi lien tuc du lon) thi khong tra duoc; nap lai la cach
+-    chac chan duy nhat de dua allocator ve trang thai sach nhu luc moi khoi dong."""
+-    print(f'   [{BACKEND}] da render {JOB_COUNT["n"]} job -- nap lai pipeline de '
+-          f'xoa phan manh allocator (RELOAD_EVERY={RELOAD_EVERY}) ...', flush=True)
+-    PIPE['pipe'] = None
+-    PIPE['mlsd'] = None
+-    gc.collect()
+-    if torch.cuda.is_available():
+-        torch.cuda.empty_cache()
+-        torch.cuda.ipc_collect()
+-    nap_model()
+ 
+ 
+ def fit_size(w, h, megapixel=1.0):
+@@ -175,40 +146,13 @@
+     _moc('xong')
+     LAST_STATS.clear()
+     LAST_STATS.update({
+-        # Version di kem TUNG JOB: so_lieu la duong duy nhat tu Colab ve client qua api,
+-        # khong co no thi khong biet may dang chay ban nao.
+-        'notebook_version': NOTEBOOK_VERSION, 'backend': BACKEND,
+         'giay': round(time.time() - t0, 1), 'kich_thuoc': list(size),
+         'line_scale': float(line_scale), 'keep_layout': job.keep_layout,
+         'steps': cfg['steps'], 'guidance': cfg['guidance'], 'seed': cfg['seed'],
+         'mlsd_threshold': cfg['mlsd_threshold'],
+         'prompt': (job.prompt or MAC_DINH['prompt'])[:400],
+     })
+-    # DON SAU MOI JOB. Pipeline nam thuong tru trong PIPE (dung y do: nap lai mat 5
+-    # phut), nhung cache cua CUDA allocator thi khong duoc giu. Khong don thi do that
+-    # tren cum 17/09/2026 la: 73s -> 186s -> 314s -> 351s roi Colab bi ngat.
+-    # empty_cache() tra khoi da cap phat ve driver; ipc_collect() don handle chia se.
+-    del ket_qua, arr, line, anh, src
+-    gc.collect()
+-    if torch.cuda.is_available():
+-        torch.cuda.empty_cache()
+-        torch.cuda.ipc_collect()
+-    _moc('da_don')
+-    LAST_STATS['vram_sau_don_gb'] = round(torch.cuda.memory_allocated() / 1024 ** 3, 2) \
+-        if torch.cuda.is_available() else None
+-    # reserved > allocated sau don la dau hieu phan manh: allocator van giu khoi do
+-    # trong tay (khong tra ve driver) du khong con tensor nao dung no.
+-    LAST_STATS['vram_reserved_sau_don_gb'] = round(torch.cuda.memory_reserved() / 1024 ** 3, 2) \
+-        if torch.cuda.is_available() else None
+-
+-    print(f'   [{BACKEND}] xong {size[0]}x{size[1]} trong {LAST_STATS["giay"]}s '
+-          f'(vram con {LAST_STATS["vram_sau_don_gb"]} GB, '
+-          f'reserved {LAST_STATS["vram_reserved_sau_don_gb"]} GB)')
+-
+-    JOB_COUNT['n'] += 1
+-    if RELOAD_EVERY and JOB_COUNT['n'] % RELOAD_EVERY == 0:
+-        _nap_lai_dinh_ky()
+-
++    print(f'   [{BACKEND}] xong {size[0]}x{size[1]} trong {LAST_STATS["giay"]}s')
+     return out_path
+ 
+ 
+
+##### cell 6b72be58 #####
+--- Interior_Design_Render.ipynb
++++ Interior_Design_Render_server.ipynb
+@@ -52,6 +52,10 @@
+     Do tren chinh ha tang nay: quick tunnel cloudflared cho chieu api-KEO khoang
+     0,11 MB/s, chieu Colab-DAY khoang 8,5 MB/s. Khong co callback_url thi KHONG lam
+     gi: api keo qua GET /jobs/{id}/result nhu cu.
++
++    Tra None = khong co callback (khong phai loi), True = day xong, False = day hong.
++    Nguoi goi ghi ket qua nay vao job; ham nay KHONG tu ghi, vi no phai chay XONG
++    truoc khi job chuyen sang 'done'.
+     """
+     with JOBS_LOCK:
+         j = JOBS.get(jid) or {}
+@@ -69,10 +73,8 @@
+             print(f'[{BACKEND}] day ve server that bai HTTP {r.status_code}: {r.text[:200]}')
+             return False
+         giay = time.perf_counter() - t0
+-        print(f'[{BACKEND}] da day {mb:.2f} MB ve server trong {giay:.1f}s')
+-        with JOBS_LOCK:
+-            if jid in JOBS:
+-                JOBS[jid]['da_day_ve'] = True
++        print(f'[{BACKEND}] da day {mb:.2f} MB ve server trong {giay:.1f}s '
++              f'({mb * 1000 / max(giay, .01):.0f} KB/s)')
+         return True
+     except Exception as e:
+         print(f'[{BACKEND}] day ve server loi: {e}')
+@@ -80,15 +82,30 @@
+ 
+ 
+ def _run_async(jid, tag, work):
++    """Chay job -> DAY file ve api -> moi dat 'done'.
++
++    Thu tu do la bat buoc, khong phai so thich: api poll GET /jobs/{id} moi ~3 giay,
++    va `getResultStream` uu tien file da nam tren dia api. Dat 'done' TRUOC khi day
++    xong thi co mot cua so trong do api thay 'done' ma file chua toi -> no roi ve
++    duong keo nguoc qua tunnel, cham hon khoang 85 lan, va khong co loi nao de lan ra.
++    """
+     try:
+         with RUN_LOCK:                      # serialize GPU: chi 1 job render 1 luc
+-            path, filename = work()
++            # `so_lieu` chup NGAY TRONG khoa: LAST_STATS la bien toan cuc dung chung,
++            # doc no sau khi da nha khoa thi job sau kip ghi de.
++            path, filename, so_lieu = work()
++        with JOBS_LOCK:
++            if jid in JOBS:
++                JOBS[jid].update(stage='day ket qua ve server', progress=0.99,
++                                 so_lieu=so_lieu)
++        da_day = day_ve_server(jid, path)
+         with JOBS_LOCK:
+             if jid in JOBS:
+                 JOBS[jid].update(status='done', stage='done', progress=1.0,
+-                                 result=path, filename=filename, so_lieu=dict(LAST_STATS))
+-        day_ve_server(jid, path)
+-        print(f'[{tag}] xong job {jid[:8]} -> {path}')
++                                 result=path, filename=filename, so_lieu=so_lieu,
++                                 da_day_ve=da_day)
++        print(f'[{tag}] xong job {jid[:8]} -> {path}'
++              + ('' if da_day is None else f' | day ve api: {da_day}'))
+     except Exception as e:
+         traceback.print_exc()
+         tb = traceback.format_exc()
+@@ -203,21 +220,84 @@
+     return _json_an_toan(LAST_STATS)
+ 
+ 
++# Form thu tay. api.downloadvideo.vn KHONG dung duong nay - no POST thang JSON
++# vao DUONG_GENERATE[0]. De day de kiem mot tam anh that ngay tren may Colab,
++# truoc khi khai notebook vao config.json.
++FORM = """<!doctype html><meta charset=utf-8><title>__N__ __V__</title>
++<style>body{font:14px system-ui;max-width:680px;margin:2rem auto;padding:0 1rem}
++label{display:block;margin:.6rem 0 .2rem;font-weight:600}
++input,select,textarea{width:100%;padding:.4rem;box-sizing:border-box}
++button{margin-top:1rem;padding:.6rem 1.2rem;font-size:15px}
++#log{white-space:pre-wrap;margin-top:1rem;background:#f4f4f5;padding:.8rem;border-radius:6px}
++img{max-width:100%;margin-top:1rem}small{color:#555;font-weight:400}</style>
++<h3>__N__ __V__ &mdash; backend <code>__B__</code></h3>
++<p><a href=/version>/version</a> &middot; <a href=/health>/health</a> &middot;
++<a href=/laststats>/laststats</a></p>
++<p><small>Notebook KHONG biet SPACE / room type / style / color. Client tra 9 file JSON,
++ghep chuoi roi gui xuong &mdash; xem prompt_builder.py.</small></p>
++<form id=f>
++<label>anh_url <small>(anh phong goc, URL cong khai)</small></label><input name=anh_url required>
++<label>prompt <small>(encoder 1: khong gian + hang muc + look + bang mau)</small></label>
++<textarea name=prompt rows=3></textarea>
++<label>prompt_2 <small>(encoder 2: hang muc dinh danh + tag hoan thien + tag chat luong)</small></label>
++<textarea name=prompt_2 rows=2></textarea>
++<label>keep_layout <small>(giu cua so / duong tuong cua anh goc)</small></label>
++<select name=keep_layout><option value=true>true</option><option value=false>false</option></select>
++<label>steps</label><input name=steps type=number value=30>
++<label>seed</label><input name=seed type=number value=42>
++<button>Chay</button></form><div id=log>...</div>
++<script>
++const log = m => document.getElementById('log').textContent = m;
++document.getElementById('f').onsubmit = async ev => {
++  ev.preventDefault();
++  const fd = new FormData(ev.target), than = {};
++  for (const [k, v] of fd) { if (v === '') continue;
++    than[k] = k === 'keep_layout' ? v === 'true' : (k === 'steps' || k === 'seed') ? +v : v; }
++  log('dang gui...');
++  const r = await fetch('__G__', {method:'POST', headers:{'Content-Type':'application/json'},
++                                 body: JSON.stringify(than)});
++  const j = await r.json();
++  if (!j.job_id) return log('LOI ' + r.status + ': ' + JSON.stringify(j));
++  const t0 = Date.now();
++  const poll = setInterval(async () => {
++    const s = await (await fetch('/jobs/' + j.job_id)).json();
++    log(`job ${j.job_id}
++stage=${s.stage} progress=${(s.progress*100).toFixed(1)}% ` +
++        `elapsed=${((Date.now()-t0)/1000).toFixed(0)}s
++status=${s.status}` +
++        (s.error ? '
++LOI: ' + s.error + '
++' + (s.where||'') : '') +
++        (s.so_lieu ? '
++' + JSON.stringify(s.so_lieu, null, 1) : ''));
++    if (s.status === 'done') { clearInterval(poll);
++      document.getElementById('log').insertAdjacentHTML('afterend',
++        `<img src="/jobs/${j.job_id}/result">`); }
++    if (s.status === 'error') clearInterval(poll);
++  }, 3000);
++};
++</script>"""
++
++
+ @app.get('/', response_class=HTMLResponse)
+ def trang_chu():
+-    return (f'<!doctype html><meta charset=utf-8><title>{NOTEBOOK_NAME}</title>'
+-            f'<body style="font:14px system-ui;max-width:680px;margin:2rem auto">'
+-            f'<h3>{NOTEBOOK_NAME} {NOTEBOOK_VERSION} &mdash; backend <code>{BACKEND}</code></h3>'
+-            f'<p><a href=/version>/version</a> &middot; <a href=/health>/health</a> &middot; '
+-            f'<a href=/laststats>/laststats</a></p>'
+-            f'<p>POST JSON toi <code>{DUONG_GENERATE[0]}</code> voi '
+-            f'<code>{{"anh_url": "...", "prompt": "..."}}</code>, roi GET /jobs/{{id}} va '
+-            f'/jobs/{{id}}/result.</p>'
+-            f'<p>Notebook KHONG biet SPACE/room/style/color &mdash; client ghep prompt tu '
+-            f'cac file JSON roi gui xuong.</p>')
++    html = FORM
++    for k, v in (('__N__', NOTEBOOK_NAME), ('__V__', NOTEBOOK_VERSION),
++                 ('__B__', BACKEND), ('__G__', DUONG_GENERATE[0])):
++        html = html.replace(k, v)
++    return html
+ 
+ 
+ def nhan_job(job: Job):
++    # Kiem TRUOC khi tao job: loi input phai ra 4xx ngay tai POST. aiService coi
++    # 4xx la hong han (khong requeue sang profile khac) - dung y, vi anh_url sai
++    # thi doi may van sai. Bao qua duong job 'error' thi api cung fail, nhung da
++    # giam mot profile GPU suot may giay cho mot viec chac chan hong.
++    try:
++        kiem_nguon(job)
++    except ValueError as e:
++        raise HTTPException(status_code=400, detail=str(e))
++
+     uid = uuid.uuid4().hex[:8]
+     case = job.test_case or TEST_CASE
+     out_path, fn = _out_paths(uid, case, ext='jpg')
+@@ -225,7 +305,7 @@
+     prog = _progress_cb(jid)
+ 
+     def work():
+-        return chay_job(job, uid, out_path, progress=prog), fn
++        return chay_job(job, uid, out_path, progress=prog), fn, dict(LAST_STATS)
+ 
+     return _spawn(jid, BACKEND, work, case)
+ 
+@@ -336,7 +416,8 @@
+ 
+ print(f'=== {NOTEBOOK_NAME} {NOTEBOOK_VERSION} | backend={BACKEND} | case={TEST_CASE} ===')
+ print('URL:', public_url)
+-print('Endpoints: GET /version | GET /health | POST ' + DUONG_GENERATE[0] + ' (JSON)')
++print('Endpoints: GET /version | GET /health | GET / (form thu tay)')
++print('           POST ' + ' | '.join(DUONG_GENERATE) + ' (JSON, api goi duong nay)')
+ print('           GET /jobs/{id} | GET /jobs/{id}/result | GET /laststats')
+ print('>>> SAN SANG. Giu cell nay chay.')
+ while True:
+
